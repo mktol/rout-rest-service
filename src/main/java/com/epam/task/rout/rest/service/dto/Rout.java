@@ -1,5 +1,7 @@
 package com.epam.task.rout.rest.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -7,7 +9,9 @@ public class Rout {
 
     private Long id;
 
+    @JsonFormat(pattern = "dd::MM::yyyy")
     private LocalDateTime departure;
+    @JsonFormat(pattern = "dd::MM::yyyy")
     private LocalDateTime arrival;
     private City start;
     private City finish;

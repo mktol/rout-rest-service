@@ -4,7 +4,7 @@ import com.epam.task.rout.rest.service.dto.City;
 import com.epam.task.rout.rest.service.service.CityService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.ribbon.proxy.annotation.Http;
+//import com.netflix.ribbon.proxy.annotation.Http;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
