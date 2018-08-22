@@ -1,0 +1,5 @@
+server.port = 8090
+spring.application.name=rout-rest-service
+#spring.jackson.serialization.write_dates_as_timestamps=false
+spring.jackson.serialization.write-date-keys-as-timestamps=true
+spring.jackson.serialization.write-dates-as-timestamps=true

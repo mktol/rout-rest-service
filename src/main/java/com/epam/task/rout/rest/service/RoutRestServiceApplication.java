@@ -4,9 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+//@RibbonClient(name = "city-rout-handler", configuration = RibbonConfiguration.class)
+@EnableEurekaClient
 @SpringBootApplication
 public class RoutRestServiceApplication {
 
@@ -14,7 +19,7 @@ public class RoutRestServiceApplication {
         SpringApplication.run(RoutRestServiceApplication.class, args);
     }
 
-//    @LoadBalanced
+    @LoadBalanced
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();

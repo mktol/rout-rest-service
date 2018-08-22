@@ -1,26 +1,57 @@
 package com.epam.task.rout.rest.service.service;
 
+import com.epam.task.rout.rest.service.dto.City;
+import com.epam.task.rout.rest.service.dto.InternalRout;
 import com.epam.task.rout.rest.service.dto.Rout;
+import com.epam.task.rout.rest.service.util.Converter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class RoutService {
+    private final RestTemplate restTemplate;
+
+
+    @Autowired
+    public RoutService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     public Rout findById(Long id) {
-        throw new NotImplementedException();
+        ResponseEntity<InternalRout> cityResponse = restTemplate.exchange("http://city-rout-handler/rest/snippets/"+id, HttpMethod.GET, null, new ParameterizedTypeReference<InternalRout>() {});
+//        ResponseEntity<InternalRout> cityResponse = restTemplate.exchange("http://localhost:8080/rest/snippets/"+id, HttpMethod.GET, null, new ParameterizedTypeReference<InternalRout>() {});
+        return Converter.toRout(Objects.requireNonNull(cityResponse.getBody()));
     }
 
     public void remove(Long id) {
-        throw new NotImplementedException();
+        restTemplate.execute("http://localhost:8080/rest/snippets/"+id, HttpMethod.DELETE, null, null);
     }
 
     public Rout create(Rout rout) {
-        throw new NotImplementedException();
+        InternalRout internalRout = Converter.toInternal(rout);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<InternalRout> entity = new HttpEntity<>(internalRout, headers);
+//      for configured eureka cloud  ResponseEntity<City> cityResponseEntity = restTemplate.postForEntity("http://city-rout-handler/cities", entity, City.class);
+        ResponseEntity<InternalRout> routResponseEntity = restTemplate.postForEntity("http://city-rout-handler/rest/snippets", entity, InternalRout.class);
+//        ResponseEntity<InternalRout> routResponseEntity = restTemplate.postForEntity("http://localhost:8080/rest/snippets", entity, InternalRout.class);
+        System.out.println(routResponseEntity.getStatusCode());
+        return Converter.toRout(Objects.requireNonNull(routResponseEntity.getBody()));
     }
 
     public List<Rout> findAll() {
-        throw new NotImplementedException();
+        ResponseEntity<List<InternalRout>> routResponseEntity = restTemplate.exchange("http://city-rout-handler/rest/snippets", HttpMethod.GET, null, new ParameterizedTypeReference<List<InternalRout>>() {});
+//        ResponseEntity<List<InternalRout>> routResponseEntity = restTemplate.exchange("http://localhost:8080/rest/snippets", HttpMethod.GET, null, new ParameterizedTypeReference<List<InternalRout>>() {});
+        return Converter.toRouts(Objects.requireNonNull(routResponseEntity.getBody()));
     }
+
+
 }

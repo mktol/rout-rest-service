@@ -6,6 +6,8 @@ import com.epam.task.rout.rest.service.dto.Rout;
 
 import java.sql.Timestamp;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Converter {
 
@@ -28,5 +30,9 @@ public class Converter {
         rout.setFinish(internalRout.getFinish());
         rout.setId(internalRout.getId());
         return rout;
+    }
+
+    public static List<Rout> toRouts(List<InternalRout> routs){
+        return routs.stream().map(Converter::toRout).collect(Collectors.toList());
     }
 }

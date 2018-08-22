@@ -1,6 +1,11 @@
 package com.epam.task.rout.rest.service.dto;
 
+import com.epam.task.rout.rest.service.service.LocalDateDeserializer;
+import com.epam.task.rout.rest.service.service.LocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -9,9 +14,12 @@ public class Rout {
 
     private Long id;
 
-    @JsonFormat(pattern = "dd::MM::yyyy")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDateTime departure;
-    @JsonFormat(pattern = "dd::MM::yyyy")
+//    @JsonFormat(pattern = "dd::MM::yyyy HH:mm")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDateTime arrival;
     private City start;
     private City finish;
