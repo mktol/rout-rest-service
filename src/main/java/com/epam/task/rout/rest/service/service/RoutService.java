@@ -1,18 +1,16 @@
 package com.epam.task.rout.rest.service.service;
 
-import com.epam.task.rout.rest.service.dto.City;
 import com.epam.task.rout.rest.service.dto.InternalRout;
 import com.epam.task.rout.rest.service.dto.Rout;
 import com.epam.task.rout.rest.service.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -21,7 +19,7 @@ public class RoutService {
 
 
     @Autowired
-    public RoutService(RestTemplate restTemplate) {
+    public RoutService(@Qualifier(value = "lbRestTemplate")RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -52,6 +50,5 @@ public class RoutService {
 //        ResponseEntity<List<InternalRout>> routResponseEntity = restTemplate.exchange("http://localhost:8080/rest/snippets", HttpMethod.GET, null, new ParameterizedTypeReference<List<InternalRout>>() {});
         return Converter.toRouts(Objects.requireNonNull(routResponseEntity.getBody()));
     }
-
 
 }

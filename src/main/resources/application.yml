@@ -3,7 +3,8 @@ spring:
     name: rest-path-server
 
 server:
-  port: 8090
+  port: 8070
+
 
 hystrix:
   command:
@@ -19,3 +20,14 @@ ribbon:
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 0
   ReadTimeout: 4000
+
+city:
+  custom:
+    url: http://localhost:9093/cities
+  default:
+    url: http://city-rout-handler/cities
+
+#eureka:
+#  client:
+#    service-url:
+#      defaulstZone: http://localhost:8767/eureka

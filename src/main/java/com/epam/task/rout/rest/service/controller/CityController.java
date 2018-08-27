@@ -13,11 +13,14 @@ import java.util.Map;
 @RequestMapping("/cities")
 public class CityController {
 
-    @Autowired
-    private CityService cityService;
+    private final CityService cityService;
 
-    @GetMapping
-    @RequestMapping("/{id}")
+    @Autowired
+    public CityController(CityService cityService) {
+        this.cityService = cityService;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public City findById(@PathVariable("id")String id){
         return cityService.getCity(id);
     }
@@ -26,13 +29,12 @@ public class CityController {
         return cityService.getAllCities();
     }
 
-    @PostMapping
-    @RequestMapping(produces = "application/json")
+    @RequestMapping(produces = "application/json", method = RequestMethod.POST)
     public City create(@RequestBody City city) {
         return cityService.createCity(city);
     }
 
-    @GetMapping("/path")
+    @RequestMapping(value = "/path", method = RequestMethod.GET)
     public Map<String, List<City>> getBestPath(@RequestParam("start") String start, @RequestParam("finish") String finish){
         return cityService.findBestWays(start, finish);
     }
